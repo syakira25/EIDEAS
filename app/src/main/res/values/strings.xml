@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">E-IDEAS</string>
+    <string name="action_settings" />
+    <string name="action_save" />
+    <string name="hint_title" />
+    <string name="hint_content" />
+</resources>
