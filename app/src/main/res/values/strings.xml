@@ -1,7 +1,28 @@
 <resources>
-    <string name="app_name">E-IDEAS</string>
-    <string name="action_settings" />
-    <string name="action_save" />
-    <string name="hint_title" />
-    <string name="hint_content" />
+    <string name="app_name">MyNotes</string>
+    <string name="title_activity_note">NoteActivity</string>
+
+    <!-- ACTION -->
+    <string name="done_saved">Note saved</string>
+    <string name="done_deleted">Note deleted</string>
+    <string name="authentication_failed">Authentication failed.</string>
+
+    <!-- HINT -->
+    <string name="hint_title">Enter title</string>
+    <string name="hint_content">Enter content</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <!-- MENU -->
+    <string name="action_logout">Logout</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="this_is_a_title">This is a title</string>
+    <string name="todo">TODO</string>
+    <string name="description">Description</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_dob">Dob</string>
+    <string name="hint_gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="btn_sign_up" />
 </resources>

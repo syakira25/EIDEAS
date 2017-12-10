@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="standard_separator" />
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_padding">16dp</dimen>
+
+    <dimen name="standard_separator">8dp</dimen>
+    <dimen name="secondary_separator">56dp</dimen>
 </resources>

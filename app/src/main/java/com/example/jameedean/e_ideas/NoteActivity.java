@@ -7,21 +7,39 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * Created by JameeDean on 11/12/2017.
- */
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import com.example.jameedean.e_ideas.data.Reference;
+import com.example.jameedean.e_ideas.model.NoteModel;
 
 public class NoteActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mDatabase;
+    private EditText mTVTitle;
+    private EditText mTVDescription;
 
-    private EditText mETTitle;
-    private EditText mETDescription;
+    private DatabaseReference mReference;
+
+    private String mId;
+
+    // Firebase Authentication
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mFirebaseAuth.getCurrentUser();
+
         setContentView(R.layout.activity_note);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,15 +48,55 @@ public class NoteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mDatabase = FirebaseDatabase.getInstance();
+        // Binding
+        mTVTitle = findViewById(R.id.et_title);
+        mTVDescription = findViewById(R.id.et_description);
 
-        mETTitle = (EditText) findViewById(R.id.et_title);
-        mETDescription = (EditText) findViewById(R.id.et_description);
+        mReference = FirebaseDatabase.getInstance().getReference(mCurrentUser.getUid()).child(Reference.DB_NOTES);
+
+        Intent intent = getIntent();
+        // Load record
+        if(intent != null) {
+            mId = intent.getStringExtra(Reference.NOTE_ID);
+            if(mId != null) {
+                mReference.child(mId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        NoteModel model = dataSnapshot.getValue(NoteModel.class);
+                        if(model != null) {
+                            mTVTitle.setText(model.getTitle());
+                            mTVDescription.setText(model.getDescription());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem item = menu.findItem(R.id.action_delete);
+
+        if(mId == null) {
+            item.setEnabled(false);
+            item.setVisible(false);
+        } else {
+            item.setEnabled(true);
+            item.setVisible(true);
+        }
+
+        return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
+        getMenuInflater().inflate(R.menu.menu_note, menu);
         return true;
     }
 
@@ -47,20 +105,58 @@ public class NoteActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_save:
+
                 // What to do when save
-                DatabaseReference myRef = mDatabase.getReference("message");
-                myRef.setValue(new Note(mETTitle.getText().toString(), mETDescription.getText().toString())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                NoteModel model = new NoteModel(
+                        mTVTitle.getText().toString(),
+                        mTVDescription.getText().toString(),
+                        System.currentTimeMillis()
+                );
+
+                save(model, new DatabaseReference.CompletionListener() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Intent intent = new Intent(getBaseContext(),MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        actionNotification(databaseError, R.string.done_saved);
                     }
                 });
-
+                break;
+            case R.id.action_delete:
+                if(!mId.isEmpty()) {
+                    mReference.child(mId).removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            actionNotification(databaseError, R.string.done_deleted);
+                        }
+                    });
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /***
+     * Save record to firebase
+     * @param model
+     */
+    private void save(NoteModel model,
+                      DatabaseReference.CompletionListener listener) {
+
+        if(mId == null) {
+            // generate id
+            mId = mReference.push().getKey();
+        }
+
+        mReference.child(mId).setValue(model, listener);
+    }
+
+    private void actionNotification(DatabaseError error, int successResourceId) {
+        // close activity
+        if(error == null) {
+            Toast.makeText(NoteActivity.this, successResourceId, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(NoteActivity.this, error.getCode(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
