@@ -2,12 +2,14 @@ package com.example.jameedean.e_ideas;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.jameedean.e_ideas.data.Reference;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,18 +24,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-
-import com.example.jameedean.e_ideas.data.Reference;
-
 public class LoginActivity extends AppCompatActivity {
 
     private SignInButton mBtnSignIn;
+    private Button btnSignIn;
 
     // firebase
     private FirebaseAuth mAuth;
 
     // Google APi
     private GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         if(currentUser != null) {
             userAlreadyLoggedIn();
         }
-
+        //btnSignIn = (Button) findViewById(R.id.sign_in_button);
         mBtnSignIn = findViewById(R.id.btn_signin);
         mBtnSignIn.setSize(SignInButton.SIZE_WIDE);
         mBtnSignIn.setColorScheme(SignInButton.COLOR_LIGHT);
@@ -132,8 +133,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(i);
     }
-    public void btnLogin_Click(View v) {
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+    public void btnSignIn_Click(View view) {
+        Intent i = new Intent(LoginActivity.this, SignIn_Activity.class);
         startActivity(i);
     }
     private void userAlreadyLoggedIn() {
@@ -142,4 +143,5 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         startActivity(intent);
         finish();
     }
+
 }

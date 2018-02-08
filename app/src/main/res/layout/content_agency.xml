@@ -3,31 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
     android:padding="@dimen/d16p"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.jameedean.e_ideas.NoteActivity"
-    tools:showIn="@layout/activity_note"
+    tools:context="com.example.jameedean.e_ideas.AgencyActivity"
+    tools:showIn="@layout/activtiy_agency"
     android:layout_marginStart="@dimen/standard_separator"
     android:layout_marginEnd="@dimen/standard_separator">
 
     <EditText
-        android:id="@+id/et_title"
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_title"
-        />
+        android:hint="Name Agency" />
 
     <EditText
-        android:id="@+id/et_description"
+        android:id="@+id/iv_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/d16p"
-        android:layout_below="@id/et_title"
+        android:layout_below="@id/et_name"
+        android:hint="Agency Logo URL" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_logo"
         android:scrollbars="vertical"
         android:inputType="textMultiLine"
-        android:hint="@string/hint_content"
-        android:gravity="top"/>
+        android:hint="Email"
+        android:gravity="top"
+        android:layout_marginTop="@dimen/d16p"/>
 
 </RelativeLayout>

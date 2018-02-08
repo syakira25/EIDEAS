@@ -7,10 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.jameedean.e_ideas.data.Reference;
-import com.example.jameedean.e_ideas.model.NoteModel;
+import com.example.jameedean.e_ideas.model.AgencyModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,13 +19,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-public class NoteActivity extends AppCompatActivity {
+public class AgencyActivity extends AppCompatActivity{
 
-    private EditText mTVTitle;
-    private EditText mTVDescription;
+    private EditText mTVName;
+    private EditText mTVEmail;
+    private ImageView mIVLogo;
 
-    private DatabaseReference mReference;
+    private DatabaseReference mReference1;
 
     private String mId;
 
@@ -39,7 +42,7 @@ public class NoteActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mCurrentUser = mFirebaseAuth.getCurrentUser();
 
-        setContentView(R.layout.activity_note);
+        setContentView(R.layout.activtiy_agency);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,23 +51,26 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         // Binding
-        mTVTitle = findViewById(R.id.et_title);
-        mTVDescription = findViewById(R.id.et_description);
+        mTVName = findViewById(R.id.et_name);
+        mTVEmail = findViewById(R.id.et_email);
+        mIVLogo = findViewById(R.id.iv_logo);
 
-        mReference = FirebaseDatabase.getInstance().getReference(mCurrentUser.getUid()).child(Reference.DB_NOTES);
+        mReference1 = FirebaseDatabase.getInstance().getReference(mCurrentUser.getUid()).child(Reference.DB_AGENCY);
 
         Intent intent = getIntent();
         // Load record
         if(intent != null) {
-            mId = intent.getStringExtra(Reference.NOTE_ID);
+            mId = intent.getStringExtra(Reference.AGENCY_ID);
             if(mId != null) {
-                mReference.child(mId).addListenerForSingleValueEvent(new ValueEventListener() {
+                mReference1.child(mId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        NoteModel model = dataSnapshot.getValue(NoteModel.class);
+                        AgencyModel model = dataSnapshot.getValue(AgencyModel.class);
                         if(model != null) {
-                            mTVTitle.setText(model.getTitle());
-                            mTVDescription.setText(model.getDescription());
+                            mTVName.setText(model.getName());
+                            mTVEmail.setText(model.getEmail());
+
+                            Picasso.with(getApplicationContext()).load(model.getLogoUrl()).into(mIVLogo);
                         }
                     }
 
@@ -95,7 +101,7 @@ public class NoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_note, menu);
+        getMenuInflater().inflate(R.menu.menu_agency, menu);
         return true;
     }
 
@@ -106,9 +112,9 @@ public class NoteActivity extends AppCompatActivity {
             case R.id.action_save:
 
                 // What to do when save
-                NoteModel model = new NoteModel(
-                        mTVTitle.getText().toString(),
-                        mTVDescription.getText().toString(),
+                AgencyModel model = new AgencyModel(
+                        mTVName.getText().toString(),
+                        mTVEmail.getText().toString(),
                         System.currentTimeMillis()
                 );
 
@@ -121,7 +127,7 @@ public class NoteActivity extends AppCompatActivity {
                 break;
             case R.id.action_delete:
                 if(!mId.isEmpty()) {
-                    mReference.child(mId).removeValue(new DatabaseReference.CompletionListener() {
+                    mReference1.child(mId).removeValue(new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             actionNotification(databaseError, R.string.done_deleted);
@@ -138,25 +144,26 @@ public class NoteActivity extends AppCompatActivity {
      * Save record to firebase
      * @param model
      */
-    private void save(NoteModel model,
+    private void save(AgencyModel model,
                       DatabaseReference.CompletionListener listener) {
 
         if(mId == null) {
             // generate id
-            mId = mReference.push().getKey();
+            mId = mReference1.push().getKey();
         }
 
-        mReference.child(mId).setValue(model, listener);
+        mReference1.child(mId).setValue(model, listener);
     }
 
     private void actionNotification(DatabaseError error, int successResourceId) {
         // close activity
         if(error == null) {
-            Toast.makeText(NoteActivity.this, successResourceId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(AgencyActivity.this, successResourceId, Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(NoteActivity.this, error.getCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(AgencyActivity.this, error.getCode(), Toast.LENGTH_SHORT).show();
         }
     }
-
 }
+
+

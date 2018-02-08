@@ -161,4 +161,8 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data){
                     }
                 });
     }
+    public void btnSignIn_Click(View view) {
+        Intent i = new Intent(RegisterActivity.this, SignIn_Activity.class);
+        startActivity(i);
+    }
 }

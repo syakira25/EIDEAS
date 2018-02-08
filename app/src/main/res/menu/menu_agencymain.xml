@@ -1,16 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.jameedean.e_ideas.MainActivity">
+    tools:context="com.example.jameedean.e_ideas.AgencyMainActivity">
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/action_main"
         android:orderInCategory="100"
-        android:title="@string/action_logout"
+        android:title="Main Page"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_agency"
+        android:id="@+id/action_note"
         android:orderInCategory="100"
-        android:title="Agency"
+        android:title="Add Notes"
         app:showAsAction="never" />
 </menu>

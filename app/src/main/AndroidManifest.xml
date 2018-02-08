@@ -3,6 +3,8 @@
     package="com.example.jameedean.e_ideas">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,21 +20,42 @@
         </activity>
         <activity
             android:name=".NoteActivity"
-            android:label="IDEASActivity"
+            android:label="E-IDEAS"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".AgencyMainActivity"
+            android:label="E-IDEAS"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AgencyActivity"
+            android:label="E-IDEAS"
+            android:parentActivityName=".AgencyMainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".RegisterActivity"
-            android:label="Sign Up"
+            android:label="SIGN UP"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-            <activity android:name=".LoginActivity"
-                android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".SignIn_Activity"
+            android:label="SIGN IN"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:label="Reset Password"
+            android:parentActivityName=".SignIn_Activity"/>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

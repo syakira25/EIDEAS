@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.jameedean.e_ideas.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.example.jameedean.e_ideas.AgencyMainActivity"
+    tools:showIn="@layout/activity_agencymain">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_notes"
+        android:id="@+id/rv_agency"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

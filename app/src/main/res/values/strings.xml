@@ -1,28 +1,35 @@
 <resources>
-    <string name="app_name">MyNotes</string>
-    <string name="title_activity_note">NoteActivity</string>
+    <string name="app_name">E-IDEAS</string>
+    <string name="title_activity_note">E-IDEAS Activity</string>
 
     <!-- ACTION -->
-    <string name="done_saved">Note saved</string>
-    <string name="done_deleted">Note deleted</string>
+    <string name="done_saved">Agency saved</string>
+    <string name="done_deleted">Agency deleted</string>
     <string name="authentication_failed">Authentication failed.</string>
 
     <!-- HINT -->
     <string name="hint_title">Enter title</string>
     <string name="hint_content">Enter content</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">E-IDEAS Activity</string>
 
     <!-- MENU -->
     <string name="action_logout">Logout</string>
     <string name="action_save">Save</string>
+    <string name="action_main">Main Page</string>
+    <string name="action_note">Add Notes</string>
     <string name="action_delete">Delete</string>
     <string name="this_is_a_title">This is a title</string>
-    <string name="todo">TODO</string>
     <string name="description">Description</string>
     <string name="hint_password">Password</string>
-    <string name="hint_dob">Dob</string>
-    <string name="hint_gender">Gender</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
     <string name="btn_sign_up" />
+    <string name="minimum_password" />
+    <string name="auth_failed" />
+    <string name="hint_email" />
+    <string name="btn_login" />
+    <string name="btn_forgot_password" />
+    <string name="btn_link_to_register" />
+    <string name="lbl_forgot_password" />
+    <string name="forgot_password_msg" />
+    <string name="btn_reset_password" />
+    <string name="btn_back" />
 </resources>
